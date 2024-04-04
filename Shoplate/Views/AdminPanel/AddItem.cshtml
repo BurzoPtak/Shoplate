@@ -1,0 +1,37 @@
+﻿@model Item
+
+@if (Context.Session.GetString("IsAdmin") == "true")
+{
+<h2>Dodawanie przedmiotu</h2>
+
+<div class="container">
+    @using (Html.BeginForm("AddItem", "AdminPanel", FormMethod.Post))
+    {
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Name, new { @class = "login-input", @placeholder="Nazwa" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Description, new { @class = "login-input", @placeholder="Opis" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Image, new { @class = "login-input", @placeholder="Zdjęcie" })
+            @Html.ValidationMessageFor(model => model.Image)
+        </div>
+
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Price, new { @class = "login-input", @placeholder="Cena" })
+            @Html.ValidationMessageFor(model => model.Price)
+        </div>
+
+        <button type="submit" class="btn login-btn">Dodaj przedmiot</button>
+    }
+</div>
+}
+else
+{
+    <h1> Acces Denied</h1>
+}

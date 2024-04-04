@@ -1,0 +1,24 @@
+﻿﻿@using Shoplate.Controllers
+@{
+    ViewData["Title"] = "Register";
+}
+@if (ViewBag.Powiadomienie != null)
+{
+    <p>@ViewBag.Powiadomienie</p>
+}
+<div class="container">
+
+    <div id="register-panel" class="d-flex">
+        <form method="post" action="@Url.Action("Register", "Login")" class="d-flex flex-column">
+            <h2>Zarejestruj się</h2>
+            <input type="text" class="register-input" id="name" name="name" placeholder="Imię" required />
+            <input type="text" class="register-input" id="surname" name="surname" placeholder="Nazwisko" required />
+            <input type="email" class="register-input" id="email" name="email" placeholder="E-mail" required />
+            <input type="tel" class="register-input" id="phone" name="phone" placeholder="Nr telefonu" required />
+            <input type="text" class="register-input" id="username" name="username" placeholder="Login" required />
+            <input type="password" class="register-input" id="password" name="password" placeholder="Hasło" required />
+
+            <button type="submit" id="register-btn"><i class="fa-solid fa-lock"></i> Zarejstruj się</button>
+        </form>
+    </div>
+</div>

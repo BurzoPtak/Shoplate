@@ -1,0 +1,79 @@
+﻿@model IEnumerable<CartItem>
+
+@{
+    ViewData["Title"] = "Koszyk";
+    decimal totalPrice = 0;
+}
+
+<div id="cart-img">
+    <img src="~/Images/cart.png" width="200" />
+    <h1>Koszyk</h1>
+</div>
+
+@if (Model.Count() >= 1)
+{
+    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Cena</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr id="row-@item.Id">
+                <td>@item.Name</td>
+                <td id="price-@item.Id">@(item.Price)</td>
+                <td>
+                    <button class="delete-item-btn sub-button" value="@item.Id">
+                        <i class="fa-regular fa-trash-can" style="color: #ffffff"></i>
+                    </button>
+                </td>
+            </tr>
+            totalPrice += item.Price;
+            
+        }
+
+        <tr>
+            <td></td>
+            <td><h5>Łączna cena: @totalPrice</h5></td>
+            <td><a class="create-order-btn btn" asp-area="" asp-controller="Cart" asp-action="CreateOrder">Zamów</a></td>
+        </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <h5>Brak produktów w koszyku</h5>
+}
+
+@section Scripts
+    {
+    <script>
+        $(".sub-button").click(function () {
+            var button = $(this); // Zapisujemy referencję do przycisku
+
+            $.ajax({
+                type: "POST",
+                url: "/Cart/DeleteItem",
+                data: { itemId: button.val() },
+                success: function (response) {
+                    if (response.count > 0) {
+                        document.getElementById(`count-${response.id}`).innerHTML = response.count;
+                        document.getElementById(`price-${response.id}`).innerHTML = (response.count * response.price).toFixed(2);
+                    } else {
+                        document.getElementById(`row-${response.id}`).remove();
+                    }
+
+                    location.reload(); // Odświeżanie strony
+                },
+                error: function () {
+                    alert("Błąd!");
+                }
+            });
+        });
+    </script>
+}

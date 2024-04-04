@@ -1,0 +1,26 @@
+﻿@model IEnumerable<Order>
+
+@if (Context.Session.GetString("IsAdmin") == "true")
+{
+    ViewData["Title"] = "Wszystkie Zamówienia";
+
+<h2>Zamówienia klientów:</h2>
+
+<div class="container align-middle" id="order-panel">
+    @foreach (var order in Model)
+    {
+        <div class="order">
+            <p>Nr zamówienia: @order.Id</p>
+            <p>Data: @order.OrderDate</p>
+            <p>Miejsce: @order.City, @order.Address</p>
+            <p>ID zamawiającego: @order.UserId</p>
+
+            <p class="order-details">@Html.ActionLink(">", "OrderDetails", new { id = order.Id })</p>
+        </div>
+    }
+</div>
+}
+else
+{
+    <h1>Acces Denied</h1>
+}

@@ -1,0 +1,74 @@
+﻿﻿@using Shoplate.Controllers
+@{
+    ViewData["Title"] = "Account";
+}
+
+@if (Context.Session.GetString("LoggedIn") == "true")
+{
+    @section Banner
+    {
+    @if (Context.Session.GetString("IsAdmin") == "true")
+        {
+            <div class="container">
+                <h2 style="text-decoration: underline">Panel administratora</h2>
+            </div>
+        }
+        else
+        {
+            <div class="container">
+                <h2 style="text-decoration: underline">Panel użytkownika</h2>
+            </div>
+        }
+
+    }
+
+    <div class="container" style="padding-left: 0">
+        @if (ViewBag.Powiadomienie != null)
+        {
+            <p>@ViewBag.Powiadomienie</p>
+        }
+        <div id="account-panel">
+            @if (Context.Session.GetString("IsAdmin") == "true")
+            {
+                <a class="account-panel-item text-center" asp-controller="Cart" asp-action="AllOrders">Zamówienia</a>
+                <a class="account-panel-item text-center" asp-controller="AdminPanel" asp-action="Items">Zarządzaj produktami</a>
+            }
+            @if (Context.Session.GetString("IsAdmin") == "false")
+            {
+                <a class="account-panel-item text-center" asp-controller="Cart" asp-action="AllUserOrders">Zamówienia</a>
+            }
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 50px">
+        <details class="change-info">
+            <summary>Zmiana hasła</summary>
+            <div id="login-panel">
+                <form method="post" action="@Url.Action("ChangePassword", "Login")">
+                    <input type="password" class="login-input" id="password" name="password" placeholder="Obecne Hasło" />
+                    <input type="password" class="login-input" id="newPassword1" name="newPassword1" placeholder="Nowe Hasło" />
+                    <input type="text" class="login-input" id="newPassword2" name="newPassword2" placeholder=" Potwierdz Nowe hasło" />
+                    <input type="hidden" id="username" name="username" value="@Context.Session.GetString("Username")" />
+                    <button type="submit" class="login-btn"><i class="fa-solid fa-lock"></i> Zmień Hasło</button>
+                </form>
+            </div>
+        </details>
+    </div>
+
+    <div class="container">
+        <details class="change-info">
+            <summary>Zmiana danych</summary>
+            <div id="register-panel">
+                <form method="post" action="@Url.Action("AccountDataChange", "Login")">
+                    <input type="text" class="name-input register-input" id="name" name="name" placeholder="Imię" value="@Context.Session.GetString("Name")" required />
+                    <input type="text" class="surname-input register-input" id="surname" name="surname" placeholder="Nazwisko" value="@Context.Session.GetString("Surname")" required />
+                    <input type="email" class="email-input register-input" id="email" name="email" placeholder="Adres email" value="@Context.Session.GetString("Email")" required />
+                    <input type="tel" class="phone-input register-input" id="phone" name="phone" placeholder="Numer telefonu" value="@Context.Session.GetString("Phone")" required />
+                    <input type="hidden" id="username" name="currentUsername" value="@Context.Session.GetString("Username")" required />
+                    <input type="password" class="login-input" id="password" name="password" placeholder="Potwierdz Hasłem" />
+                    <button type="submit" class="login-btn"><i class="fa-solid fa-lock"></i> ZAPISZ</button>
+                </form>
+            </div>
+        </details>
+    </div>
+}

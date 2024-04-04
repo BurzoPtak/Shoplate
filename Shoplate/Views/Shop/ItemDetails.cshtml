@@ -1,0 +1,21 @@
+﻿@model Item
+
+
+    <div class="item">
+        <div class="item-align-left">
+            <h2>@Html.Raw(Model.Name)</h2>
+            <img src="~/Images/@Model.Image"/>
+            <a class="back-btn btn nav-link" asp-action="Index">Powrót</a>
+
+        </div>
+
+        <div class="item-align-right">
+            <h5 style="text-decoration: underline;">Opis:</h5>
+            <h5>@Html.Raw(Model.Description)</h5>
+
+            <h4>Cena: @Html.Raw(Model.Price) zł</h4>
+        </div>
+
+    </div>
+
+    

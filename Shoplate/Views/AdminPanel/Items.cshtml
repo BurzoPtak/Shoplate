@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Item>
+
+
+@if (Context.Session.GetString("IsAdmin") == "true")
+{
+    <a class="list-group-item list-group-item-action show-product-btn text-white text-weight-bold" href="@Url.Action("AddItem")">
+        Dodaj nowy przedmiot
+    </a>
+    @* Formularz sortowania i filtra cenowego *@
+    <div>
+
+        @using (Html.BeginForm("Items", "AdminPanel", FormMethod.Get))
+        {
+            <input type="text" name="name" class="filters" id="search-name" placeholder="&#xF002; Napisz czego szukasz a to znajdziemy..." />
+            <input type="number" class="filters" id="minPrice" name="minPrice" placeholder="Cena od">
+            <label>-</label>
+            <input type="number" class="filters" id="maxPrice" name="maxPrice" placeholder="Cena do">
+            <label style="margin-right: 50px;">zł</label>
+
+            <label for="sortOrder">Sortowanie:</label>
+            <select class="filters" id="sortOrder" name="sortOrder">
+                <option value="ascending">Od najtańszego</option>
+                <option value="descending">Od najdroższego</option>
+            </select>
+
+            <label for="search-category">Kategoria:</label>
+            <select class="filters" id="search-category" name="search-category">
+                <option value="uncatorized">Bez kategorii</option>
+                <option value="food">Jedzenie</option>
+            </select>
+
+            <button id="search-btn" type="submit">Filtruj i sortuj</button>
+        }
+    </div>
+
+    <div id="items" class="d-flex align-content-start justify-content-start flex-wrap">
+        @foreach (var item in Model)
+        {
+            <div class="product text-center">
+                <img class="d-block mx-auto" src="~/Images/@item.Image" />
+                <p class="text-center">@item.Name</p>
+                <p>@item.Price zł</p>
+                <a class="list-group-item list-group-item-action show-product-btn text-white text-weight-bold" href="@Url.Action("ChangeDetails", new { id = @item.Id })">
+                    Modyfikuj
+                </a>
+                <form method="post" action="@Url.Action("DeleteItem", new { id = @item.Id })" onsubmit="return confirm('Czy na pewno chcesz usunąć ten element?');">
+                    <button type="submit" class="delete-product-btn"><i class="fa-solid fa-trash-can" style="color: #ffffff;"></i></button>
+                </form>
+
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h1>No prawie :/</h1>
+}

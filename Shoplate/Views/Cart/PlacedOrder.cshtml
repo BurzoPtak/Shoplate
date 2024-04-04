@@ -1,0 +1,13 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Zamówienie";
+}
+
+
+<div class="placed-order">
+    <h2>Złożono zamówienie: </h2>
+    <p><span class="fw-bolder">Nr zamówienia:</span> @Model.Id</p>
+    <p><span class="fw-bolder">Data zamówienia:</span> @Model.OrderDate</p>
+    <p><span class="fw-bolder">Adres:</span> @Model.City, @Model.Address</p>
+</div>
+<a class="back-btn btn" asp-action="Index">Powrót</a>

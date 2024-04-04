@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Wszystkie twoje zamówienia";
+}
+<h2>Zamówienia klientów:</h2>
+
+<div class="container align-middle" id="order-panel">
+    @foreach (var order in Model)
+    {
+        <div class="order">
+            <p>Nr zamówienia: @order.Id</p>
+            <p>Data: @order.OrderDate</p>
+            <p>Miejsce: @order.City, @order.Address</p>
+
+            <p class="order-details">@Html.ActionLink(">", "OrderDetailsUser", new { id = order.Id })</p>
+        </div>
+    }
+</div>

@@ -1,0 +1,29 @@
+﻿@model Tuple<Order,User>
+@{
+    ViewData["Title"] = "Szczegóły Zamówienia";
+    decimal totalPrice = 0;
+}
+
+<h1>Szczegóły zamówienia</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>Nazwa produkt</th>
+            <th>Opis</th>
+            <th>Cena</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model.Item1.Items)
+        {
+            <tr>
+                <th>@a.Name</th>
+                <th>@a.Description</th>
+                <th>@a.Price</th>
+            </tr>
+            totalPrice += a.Price;
+        }
+    </tbody>
+</table>

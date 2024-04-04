@@ -1,0 +1,56 @@
+﻿@model Tuple<Order,User>
+
+@if (Context.Session.GetString("IsAdmin") == "true")
+{
+    ViewData["Title"] = "Szczegóły Zamówienia";
+    decimal totalPrice = 0;
+
+
+<h2 style="text-decoration: underline;">Szczegóły zamówienia</h2>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id produkt</th>
+                <th>Nazwa produkt</th>
+                <th>Opis</th>
+                <th>Cena</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var a in Model.Item1.Items)
+            {
+                <tr>
+                    <td>@a.Id</td>
+                    <td>@a.Name</td>
+                    <td>@a.Description</td>
+                    <td>@a.Price</td>
+                </tr>
+                totalPrice += a.Price;
+            }
+
+            <tr class="table-info">
+                <td></td>
+                <td></td>
+                <td><b>Łączna cena:</b></td>
+                <td><b>@totalPrice</b></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div id="client-info">
+        <p><b>Imię i nazwisko:</b> @Model.Item2.Name @Model.Item2.Surname</p>
+        <p><b>Email:</b> @Model.Item2.Email</p>
+        <p><b>Numer Telefonu:</b> @Model.Item2.Phone</p>
+        <p><b>Adres:</b>  @Model.Item1.Address , @Model.Item1.City</p>
+    </div>
+
+
+    <a class="back-btn btn" asp-action="AllOrders">Powrót</a>
+</div>
+}
+else
+{
+    <h1>Acces Denied</h1>
+}

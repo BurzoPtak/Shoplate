@@ -1,0 +1,36 @@
+﻿﻿@using Shoplate.Controllers
+@{
+    ViewData["Title"] = "Login";
+}
+
+@if (ViewBag.Powiadomienie != null)
+{
+    <p>@ViewBag.Powiadomienie</p>
+}
+
+<!--name i username sa passowane do funkcji w loginController DODAC ZE JAK KTOS ZALOGOWANY NIE DA SIE WEJSC -->
+@section Banner
+    {
+    <div id="banner-registration">
+        <div class="container text-center">
+            <p class="text-white align-middle">
+                Nie masz konta? Zarejestruj się bezpłatnie, aby móc korzystać z koszyka.
+                <a class="registration-btn align-middle" href="Register">Zarejestruj się</a>
+            </p>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <div id="login-panel">
+        <h2>Zaloguj się</h2>
+        <form method="post" action="@Url.Action("Login", "Login")">
+
+            <input type="text" class="login-input" id="username" name="username" placeholder="Nazwa użytkownika:" />
+
+            <input type="password" class="login-input" id="password" name="password" placeholder="Hasło:" />
+
+            <button type="submit" class="login-btn"><i class="fa-solid fa-lock"></i> Zaloguj się</button>
+        </form>
+    </div>
+</div>

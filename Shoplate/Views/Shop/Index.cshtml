@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Item>
+
+
+@* Formularz sortowania i filtra cenowego *@
+<div>
+   
+    @using (Html.BeginForm("Index", "Shop", FormMethod.Get))
+    {
+        <input type="text" name="name" class="filters" id="search-name" placeholder="&#xF002; Napisz czego szukasz a to znajdziemy..." />
+        <input type="number" class="filters" id="minPrice" name="minPrice" placeholder="Cena od">
+        <label>-</label>
+        <input type="number" class="filters" id="maxPrice" name="maxPrice" placeholder="Cena do">
+        <label style="margin-right: 50px;">zł</label>
+
+        <label for="sortOrder">Sortowanie:</label>
+        <select class="filters" id="sortOrder" name="sortOrder">
+            <option value="ascending">Od najtańszego</option>
+            <option value="descending">Od najdroższego</option>
+        </select>
+
+        <label for="search-category">Kategoria:</label>
+        <select class="filters" id="search-category" name="search-category">
+            <option value="uncatorized">Bez kategorii</option>
+            <option value="food">Jedzenie</option>
+        </select>
+
+        <button id="search-btn" type="submit">Filtruj i sortuj</button>
+    }
+</div>
+
+<div id="items" class="d-flex align-content-start justify-content-start flex-wrap">
+    @foreach (var item in Model)
+    {
+        <div class="product text-center">
+            <img class="d-block mx-auto" src="~/Images/@item.Image" />
+                <p class="text-center">@item.Name</p>
+            <p>@item.Price zł</p>
+            <button class="list-group-item list-group-item-action add-to-cart-btn text-white text-weight-bold add-button" value="@item.Id">
+                <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i> Dodaj do koszyka</button><br>
+
+            <a class="list-group-item list-group-item-action show-product-btn text-white text-weight-bold" href="@Url.Action("ItemDetails", new { id = @item.Id })">
+                Szczegóły
+            </a>
+            
+        </div>
+
+    }
+</div>
+
+@section Scripts
+{
+    <script>
+        $(".add-button").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Cart/AddItem",
+                data: { itemId: $(this).val() },
+                error: function () {
+                    alert("Błąd!");
+                }
+            });
+        });
+    </script>
+}
